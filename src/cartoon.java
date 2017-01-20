@@ -11,14 +11,14 @@ import java.util.Iterator;
  */
 public class cartoon {
 
-    public static void main(String[] args) throws IOException {
+    public static void execute (File open,File save) throws IOException {
         BufferedImage BI = null;
         BufferedImage dest=null;
         BufferedImage dest1=null;
         BufferedImage temp =null;
         BufferedImage finalImg=null;
-        File file = new File("D://IMGP2103.JPG");
-        BI = ImageIO.read(file);
+
+        BI = ImageIO.read(open);
 
         CannyEdgeFilter cannyEdgeFilter=new CannyEdgeFilter();
         dest=cannyEdgeFilter.filter(BI,dest);
@@ -75,18 +75,24 @@ public class cartoon {
 
         System.out.println(array3.length);
 
+
         finalImg=new BufferedImage(dest.getWidth(),dest.getHeight(),dest.getType());
         finalImg.setRGB(0,0,dest.getWidth(),dest.getHeight(),array3,0,dest.getWidth());
 
         Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName("png");
         ImageWriter writer = it.next();
-        ImageOutputStream ios = ImageIO.createImageOutputStream(new File("E://222.png"));
+        ImageOutputStream ios = ImageIO.createImageOutputStream(save);
         writer.setOutput(ios);
         writer.write(finalImg);
         finalImg.flush();
         ios.flush();
 
+        System.out.println("ok");
+
     }
+
+
+
 
     private static int[] combine(BufferedImage dest1, int[] array1, int[] array2) {
         int[] array3=new int[dest1.getWidth()*dest1.getHeight()];
